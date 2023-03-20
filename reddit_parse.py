@@ -62,7 +62,7 @@ def get_comments_count_by_user(posts: List[Dict[str, Any]], subreddit_name: str)
     reddit = create_reddit_instance()
     subreddit = reddit.subreddit(subreddit_name)
     comments_count: Dict[str, int] = {}
-    for comment in subreddit.comments(limit=500):
+    for comment in subreddit.comments(limit=490):
         author = comment.author
         if author in comments_count:
             comments_count[author] += 1
