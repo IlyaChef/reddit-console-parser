@@ -1,7 +1,7 @@
 import datetime
+import praw
 from typing import List, Dict, Any, Tuple
 from operator import itemgetter
-from reddit_instance import create_reddit_instance
 
 
 def get_subreddit_name():
@@ -9,8 +9,7 @@ def get_subreddit_name():
     return subreddit_name
 
 
-def get_subreddit_posts(subreddit_name: str, days: int) -> List[Dict[str, Any]]:
-    reddit = create_reddit_instance()
+def get_subreddit_posts(subreddit_name: str, days: int, reddit: praw.Reddit) -> List[Dict[str, Any]]:
     subreddit = reddit.subreddit(subreddit_name)
     date_from = datetime.datetime.utcnow() - datetime.timedelta(days=days)
     posts = []
@@ -45,8 +44,7 @@ def extract_comment_authors(comments) -> List[str]:
     return authors
 
 
-def get_posts_count_by_user(posts: List[Dict[str, Any]], subreddit_name: str) -> Dict[str, int]:
-    reddit = create_reddit_instance()
+def get_posts_count_by_user(posts: List[Dict[str, Any]], subreddit_name: str, reddit: praw.Reddit) -> Dict[str, int]:
     subreddit = reddit.subreddit(subreddit_name)
     user_post_count: Dict[str, int] = {}
     for post in subreddit.top(limit=50):
@@ -58,8 +56,7 @@ def get_posts_count_by_user(posts: List[Dict[str, Any]], subreddit_name: str) ->
     return user_post_count
 
 
-def get_comments_count_by_user(posts: List[Dict[str, Any]], subreddit_name: str) -> Dict[str, int]:
-    reddit = create_reddit_instance()
+def get_comments_count_by_user(posts: List[Dict[str, Any]], subreddit_name: str, reddit: praw.Reddit) -> Dict[str, int]:
     subreddit = reddit.subreddit(subreddit_name)
     comments_count: Dict[str, int] = {}
     for comment in subreddit.comments(limit=490):
